@@ -39,7 +39,7 @@ double range_self;
 double range_B;
 double range_C;
 
-boolean received_B = false;
+bool received_B = false;
 
 byte target_eui[8];
 byte tag_shortAddress[] = {0x05, 0x00};

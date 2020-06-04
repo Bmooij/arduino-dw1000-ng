@@ -137,7 +137,7 @@ namespace DW1000NgRTLS {
         DW1000Ng::clearTransmitStatus();
     }
 
-    boolean receiveFrame() {
+    bool receiveFrame() {
         DW1000Ng::startReceive();
         while(!DW1000Ng::isReceiveDone()) {
             if(DW1000Ng::isReceiveTimeout() ) {
@@ -152,7 +152,7 @@ namespace DW1000NgRTLS {
         return true;
     }
 
-    static boolean waitForNextRangingStep() {
+    static bool waitForNextRangingStep() {
         DW1000NgRTLS::waitForTransmission();
         if(!DW1000NgRTLS::receiveFrame()) return false;
         return true;

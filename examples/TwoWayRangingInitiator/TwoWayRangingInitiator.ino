@@ -72,8 +72,8 @@ const uint8_t PIN_SS = SS; // spi select pin
 // message flow state
 volatile byte expectedMsgId = POLL_ACK;
 // message sent/received state
-volatile boolean sentAck = false;
-volatile boolean receivedAck = false;
+volatile bool sentAck = false;
+volatile bool receivedAck = false;
 // timestamps to remember
 uint64_t timePollSent;
 uint64_t timePollAckReceived;

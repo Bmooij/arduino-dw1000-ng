@@ -58,7 +58,7 @@ namespace DW1000NgUtils {
 
     returns bit value (true = 1, false = 0)
     */
-    boolean getBit(byte data[], uint16_t n, uint16_t bit);
+    bool getBit(byte data[], uint16_t n, uint16_t bit);
 
     /**
     Sets the target bit value inside an array of bytes
@@ -69,7 +69,7 @@ namespace DW1000NgUtils {
     @param [in] val the bit value
 
     */
-    void setBit(byte data[], uint16_t n, uint16_t bit, boolean val);
+    void setBit(byte data[], uint16_t n, uint16_t bit, bool val);
 
     /**
     Writes the target value inside a given byte array.

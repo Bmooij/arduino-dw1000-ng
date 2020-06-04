@@ -92,14 +92,14 @@ namespace DW1000Ng {
 		PreambleLength	_preambleLength;
 		PreambleCode	_preambleCode;
 		Channel        	_channel;
-		boolean     	_smartPower;
-		boolean     	_frameCheck;
-		boolean     	_debounceClockEnabled = false;
-		boolean     	_nlos = false;
-		boolean			_standardSFD = true;
-		boolean     	_autoTXPower = true;
-		boolean     	_autoTCPGDelay = true;
-		boolean 		_wait4resp = false;
+		bool     	_smartPower;
+		bool     	_frameCheck;
+		bool     	_debounceClockEnabled = false;
+		bool     	_nlos = false;
+		bool			_standardSFD = true;
+		bool     	_autoTXPower = true;
+		bool     	_autoTCPGDelay = true;
+		bool 		_wait4resp = false;
 		uint16_t		_antennaTxDelay = 0;
 		uint16_t		_antennaRxDelay = 0;
 
@@ -220,7 +220,7 @@ namespace DW1000Ng {
 		* @param[in] value
 		*		The value of the bit to set. It, obviously, can be true/false or 1/0
 		*/
-		void _writeBitToRegister(byte bitRegister, uint16_t RegisterOffset, uint16_t bitRegister_LEN, uint16_t selectedBit, boolean value) {
+		void _writeBitToRegister(byte bitRegister, uint16_t RegisterOffset, uint16_t bitRegister_LEN, uint16_t selectedBit, bool value) {
 			uint16_t idx;
 			uint8_t bitPosition;
 
@@ -843,20 +843,20 @@ namespace DW1000Ng {
 			_writeTransmitFrameControlRegister();
 		}
 
-		void _useExtendedFrameLength(boolean val) {
+		void _useExtendedFrameLength(bool val) {
 			DW1000NgUtils::setBit(_syscfg, LEN_SYS_CFG, PHR_MODE_0_BIT, val);
 			DW1000NgUtils::setBit(_syscfg, LEN_SYS_CFG, PHR_MODE_1_BIT, val);
 		}
 
-		void _setReceiverAutoReenable(boolean val) {
+		void _setReceiverAutoReenable(bool val) {
 			DW1000NgUtils::setBit(_syscfg, LEN_SYS_CFG, RXAUTR_BIT, val);
 		}
 
-		void _useFrameCheck(boolean val) {
+		void _useFrameCheck(bool val) {
 			_frameCheck = val;
 		}
 
-		void _setNlosOptimization(boolean val) {
+		void _setNlosOptimization(bool val) {
 			_nlos = val;
 			if(_nlos) {
 				_ldecfg1();
@@ -864,7 +864,7 @@ namespace DW1000Ng {
 			}
 		}
 
-		void _useSmartPower(boolean smartPower) {
+		void _useSmartPower(bool smartPower) {
 			_smartPower = smartPower;
 			DW1000NgUtils::setBit(_syscfg, LEN_SYS_CFG, DIS_STXP_BIT, !smartPower);
 			_writeSystemConfigurationRegister();
@@ -964,7 +964,7 @@ namespace DW1000Ng {
 			_preambleCode = preamble_code;
 		}
 
-		boolean _checkPreambleCodeValidity() {
+		bool _checkPreambleCodeValidity() {
 			byte preacode = static_cast<byte>(_preambleCode);
 			if(_pulseFrequency == PulseFrequency::FREQ_16MHZ) {
 				for (auto i = 0; i < 2; i++) {
@@ -1030,33 +1030,33 @@ namespace DW1000Ng {
 			}
 		}
 
-		void _interruptOnSent(boolean val) {
+		void _interruptOnSent(bool val) {
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_MASK, TXFRS_BIT, val);
 		}
 
-		void _interruptOnReceived(boolean val) {
+		void _interruptOnReceived(bool val) {
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_MASK, RXDFR_BIT, val);
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_MASK, RXFCG_BIT, val);
 		}
 
-		void _interruptOnReceiveFailed(boolean val) {
+		void _interruptOnReceiveFailed(bool val) {
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_STATUS, RXPHE_BIT, val);
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_STATUS, RXFCE_BIT, val);
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_STATUS, RXRFSL_BIT, val);
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_STATUS, LDEERR_BIT, val);
 		}
 
-		void _interruptOnReceiveTimeout(boolean val) {
+		void _interruptOnReceiveTimeout(bool val) {
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_MASK, RXRFTO_BIT, val);
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_MASK, RXPTO_BIT, val);
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_MASK, RXSFDTO_BIT, val);
 		}
 
-		void _interruptOnReceiveTimestampAvailable(boolean val) {
+		void _interruptOnReceiveTimestampAvailable(bool val) {
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_MASK, LDEDONE_BIT, val);
 		}
 
-		void _interruptOnAutomaticAcknowledgeTrigger(boolean val) {
+		void _interruptOnAutomaticAcknowledgeTrigger(bool val) {
 			DW1000NgUtils::setBit(_sysmask, LEN_SYS_MASK, AAT_BIT, val);
 		}
 
@@ -1184,15 +1184,15 @@ namespace DW1000Ng {
 			_readBytesFromRegister(TX_FCTRL, NO_SUB, _txfctrl, LEN_TX_FCTRL);
 		}
 
-		boolean _isTransmitDone() {
+		bool _isTransmitDone() {
 			return DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, TXFRS_BIT);
 		}
 
-		boolean _isReceiveTimestampAvailable() {
+		bool _isReceiveTimestampAvailable() {
 			return DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, LDEDONE_BIT);
 		}
 
-		boolean _isReceiveDone() {
+		bool _isReceiveDone() {
 			if(_frameCheck) {
 				return (DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, RXFCG_BIT) &&
 						DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, RXDFR_BIT));
@@ -1200,20 +1200,20 @@ namespace DW1000Ng {
 			return DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, RXDFR_BIT);
 		}
 
-		boolean _isReceiveFailed() {
+		bool _isReceiveFailed() {
 			return (DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, RXPHE_BIT) ||
 					DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, RXFCE_BIT) ||
 					DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, RXRFSL_BIT) ||
 					DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, LDEERR_BIT));
 		}
 
-		boolean _isReceiveTimeout() {
+		bool _isReceiveTimeout() {
 			return (DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, RXRFTO_BIT) || 
 					DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, RXPTO_BIT) || 
 					DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, RXSFDTO_BIT));
 		}
 
-		boolean _isClockProblem() {
+		bool _isClockProblem() {
 			return (DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, CLKPLL_LL_BIT) ||
 					DW1000NgUtils::getBit(_sysstatus, LEN_SYS_STATUS, RFPLL_LL_BIT));
 		}
@@ -1364,7 +1364,7 @@ namespace DW1000Ng {
 		}
 	}
 
-	boolean isTransmitDone(){
+	bool isTransmitDone(){
 		_readSystemEventStatusRegister();
 		return _isTransmitDone();
 	}
@@ -1373,7 +1373,7 @@ namespace DW1000Ng {
 		_clearTransmitStatus();
 	}
 
-	boolean isReceiveDone() {
+	bool isReceiveDone() {
 		_readSystemEventStatusRegister();
 		return _isReceiveDone();
 	}
@@ -1382,7 +1382,7 @@ namespace DW1000Ng {
 		_clearReceiveStatus();
 	}
 
-	boolean isReceiveFailed() {
+	bool isReceiveFailed() {
 		_readSystemEventStatusRegister();
 		return _isReceiveFailed();
 	}
@@ -1393,7 +1393,7 @@ namespace DW1000Ng {
 		_resetReceiver();
 	}
 
-	boolean isReceiveTimeout() {
+	bool isReceiveTimeout() {
 		_readSystemEventMaskRegister();
 		return _isReceiveTimeout();
 	}
@@ -1699,7 +1699,7 @@ namespace DW1000Ng {
 		_writeSystemConfigurationRegister();
 	}
 
-	void setDoubleBuffering(boolean val) {
+	void setDoubleBuffering(bool val) {
 		DW1000NgUtils::setBit(_syscfg, LEN_SYS_CFG, DIS_DRXB_BIT, !val);
 	}
 
@@ -1752,7 +1752,7 @@ namespace DW1000Ng {
 		_writeBytesToRegister(SYS_CTRL, NO_SUB, _sysctrl, LEN_SYS_CTRL);
 	}
 
-	void setInterruptPolarity(boolean val) {
+	void setInterruptPolarity(bool val) {
 		DW1000NgUtils::setBit(_syscfg, LEN_SYS_CFG, HIRQ_POL_BIT, val);
 		_writeSystemConfigurationRegister();
 	}

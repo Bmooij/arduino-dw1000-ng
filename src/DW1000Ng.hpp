@@ -391,19 +391,19 @@ namespace DW1000Ng {
 	*/
 	void interruptServiceRoutine();
 	
-	boolean isTransmitDone();
+	bool isTransmitDone();
 
 	void clearTransmitStatus();
 
-	boolean isReceiveDone();
+	bool isReceiveDone();
 
 	void clearReceiveStatus();
 
-	boolean isReceiveFailed();
+	bool isReceiveFailed();
 
 	void clearReceiveFailedStatus();
 
-	boolean isReceiveTimeout();
+	bool isReceiveTimeout();
 
 	void clearReceiveTimeoutStatus();
 
@@ -419,7 +419,7 @@ namespace DW1000Ng {
 
 	@param [in] val True here means active high
 	*/
-	void setInterruptPolarity(boolean val);
+	void setInterruptPolarity(bool val);
 
 	/**
 	Applies the target configuration to the DW1000
@@ -526,14 +526,14 @@ namespace DW1000Ng {
 	WARNING: this just sets the relative bits inside the register.
 	You must refer to the DW1000 User manual to activate it properly.
 	*/
-	void setDoubleBuffering(boolean val);
+	void setDoubleBuffering(bool val);
 
 	/**
 	Enables frames up to 1023 byte length
 
 	@param [in] val true or false
 	*/
-	void useExtendedFrameLength(boolean val);
+	void useExtendedFrameLength(bool val);
 	
 	/**
 	Sets the time before the device enters receive after a transmission.
