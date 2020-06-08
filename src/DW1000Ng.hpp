@@ -391,11 +391,21 @@ namespace DW1000Ng {
 	*/
 	void interruptServiceRoutine();
 	
+	void _interruptServiceRoutine();
+	
 	bool isTransmitDone();
 
 	void clearTransmitStatus();
 
 	bool isReceiveDone();
+
+#if defined(ESP32) || defined(ESP8266)
+	/**
+	Call this function from the main loop to process
+	interrupt functions out of the interrupt service routine.
+	*/
+	void workqueue();
+#endif
 
 	void clearReceiveStatus();
 

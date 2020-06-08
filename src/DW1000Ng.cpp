@@ -62,6 +62,9 @@ namespace DW1000Ng {
 		uint8_t _ss = 0xff;
 		uint8_t _irq = 0xff;
 		uint8_t _rst = 0xff;
+#if defined(ESP32) || defined(ESP8266)
+		volatile bool intFlag = false;
+#endif
 
 		/* IRQ callbacks */
 		void (* _handleSent)(void)                      = nullptr;
@@ -1329,7 +1332,25 @@ namespace DW1000Ng {
 		_handleReceiveTimestampAvailable = handleReceiveTimestampAvailable;
 	}
 
+#if defined(ESP32) || defined(ESP8266)
 	void interruptServiceRoutine() {
+		intFlag = true;
+	}
+	
+	void workqueue() {
+		if (!intFlag)
+			return;
+
+		intFlag = false;
+		_interruptServiceRoutine();
+	}
+#else
+	void interruptServiceRoutine() {
+		_interruptServiceRoutine();
+	}
+#endif
+
+	void _interruptServiceRoutine() {
 		// read current status and handle via callbacks
 		_readSystemEventStatusRegister();
 		if(_isClockProblem() /* TODO and others */ && _handleError != 0) {
